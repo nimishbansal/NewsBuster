@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newsbuster/screens/app_tour/app_initial_tour.dart';
 import 'package:newsbuster/screens/article_web_view.dart';
 
 void main() {
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: ArticleWebView(title: 'Viral Claim ', url: _kSampleArticleUrl,),
+      home: AppInitialTour(),
+//      home: ArticleWebView(title: 'Viral Claim ', url: _kSampleArticleUrl,),
     );
   }
 }
