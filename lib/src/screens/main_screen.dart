@@ -1,10 +1,12 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:newsbuster/screens/bookmark_screen.dart';
-import 'package:newsbuster/screens/home_screen.dart';
-import 'package:newsbuster/screens/recent_screen.dart';
-import 'package:newsbuster/screens/search_screen.dart';
-import 'package:newsbuster/screens/trending_screen.dart';
+
+import 'bookmark_screen.dart';
+import 'home_screen.dart';
+import 'recent_screen.dart';
+import 'search_screen.dart';
+import 'trending_screen.dart';
+
 
 const _kBottomNavColor = Color.fromRGBO(70, 78, 85, 1);
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:newsbuster/screens/app_tour/app_initial_tour.dart';
-import 'package:newsbuster/screens/article_web_view.dart';
+import 'package:newsbuster/src/screens/article_web_view.dart';
+import 'package:newsbuster/src/screens/app_tour/app_initial_tour.dart';
 
 void main() {
   runApp(MyApp());

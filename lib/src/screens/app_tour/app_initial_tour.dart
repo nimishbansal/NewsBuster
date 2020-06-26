@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:newsbuster/main.dart';
-import 'package:newsbuster/screens/main_screen.dart';
-import 'package:newsbuster/screens/article_web_view.dart';
+
+import '../main_screen.dart';
 
 class AppInitialTour extends StatefulWidget {
   @override
