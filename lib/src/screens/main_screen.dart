@@ -63,7 +63,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
 
   /// Index of current navigation item.
-  int _currentIndex = 0;
+  int _currentIndex = 2;
 
   /// Children to be displayed in body depending on active navigation item.
   List<Widget> _children;
@@ -75,9 +75,9 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     _children = [
-      HomeScreen(),
       TrendingScreen(),
       SearchScreen(),
+      HomeScreen(),
       RecentScreen(),
       BookmarkScreen(),
     ];
@@ -93,7 +93,7 @@ class _MainScreenState extends State<MainScreen> {
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         selectedIconTheme:
-            IconThemeData(color: Colors.white, opacity: 1, size: 30),
+            IconThemeData(color: Colors.white, opacity: 1, size: 34),
         unselectedIconTheme:
             IconThemeData(color: Colors.white70, opacity: 0.8, size: 20),
         onTap: _onNavTapped,
@@ -103,9 +103,9 @@ class _MainScreenState extends State<MainScreen> {
         type: BottomNavigationBarType.shifting,
         currentIndex: _currentIndex,
         items: [
-          homeNavigationItem,
           trendingNavigationItem,
           searchNavigationItem,
+          homeNavigationItem,
           recentNavigationItem,
           bookmarkNavigationItem,
         ],
@@ -117,11 +117,11 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       _currentIndex = index;
       switch(index) {
-        case 0: { _title = 'Home'; }
+        case 0: { _title = 'Trending'; }
         break;
-        case 1: { _title = 'Trending'; }
+        case 1: { _title = 'Search'; }
         break;
-        case 2: { _title = 'Search'; }
+        case 2: { _title = 'Home'; }
         break;
         case 3: { _title = 'Recent'; }
         break;

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:newsbuster/src/article.dart';
 
 /// Card for displaying a news article.
 class ArticleCard extends StatefulWidget {
-    final imageUrl;
+    final String imageUrl;
+    final Article article;
 
-    const ArticleCard({Key key, this.imageUrl}) : super(key: key);
+    const ArticleCard({Key key, this.imageUrl, this.article}) : super(key: key);
 
     @override
     _ArticleCardState createState() => _ArticleCardState();

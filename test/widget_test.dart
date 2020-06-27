@@ -9,22 +9,71 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:newsbuster/main.dart';
+import 'package:newsbuster/src/article.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
-
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  test('parses article', () {
+    const jsonString = """
+    {
+                "_id": "5ef603b835f5361a78bd358b",
+                "headline": "headline1",
+                "author": "m the author",
+                "publishDate": "26 june2019",
+                "imageUrl" : "https://www.youtube.com/watch?v=rfagvy5xCW0&list=PLjxrf2q8roU3ahJVrSgAnPjzkpGmL9Czl&index=5",
+                "article": "this is the content of article",
+                "claim": null,
+                "publisher": {
+                    "article": [],
+                    "_id": "5ef603b835f5361a78bd358a",
+                    "name": "indiatoday",
+                    "__v": 0
+                },
+                "__v": 0
+    }
+    """;
+    expect(parseArticle(jsonString).headline, "headline1");
   });
+
+  test('parses list of article', () {
+      const jsonString = """
+      [
+        {
+                "_id": "5ef603b835f5361a78bd358b",
+                "headline": "headline1",
+                "author": "m the author",
+                "publishDate": "26 june2019",
+                "imageUrl" : "https://www.youtube.com/watch?v=rfagvy5xCW0&list=PLjxrf2q8roU3ahJVrSgAnPjzkpGmL9Czl&index=5",
+                "article": "this is the content of article",
+                "claim": null,
+                "publisher": {
+                    "article": [],
+                    "_id": "5ef603b835f5361a78bd358a",
+                    "name": "indiatoday",
+                    "__v": 0
+                },
+                "__v": 0
+        },
+        {
+                "_id": "5ef603b835f32323238b",
+                "headline": "headline2",
+                "author": "m the author2",
+                "publishDate": "26 june 2019",
+                "imageUrl" : "https://www.youtube.com/watch?v=rfagvy5xCW0&list=PLjxrf2q8roU3ahJVrSgAnPjzkpGmL9Czl&index=5",
+                "article": "this is the content of article2",
+                "claim": {"result":"false"},
+                "publisher": {
+                    "article": [],
+                    "_id": "5ef603b835f5361a7834323",
+                    "name": "news mobile",
+                    "__v": 0
+                },
+                "__v": 0
+        }
+       
+      ]
+        
+    """;
+      expect(parseArticles(jsonString)[0].headline, "headline1");
+  });
+
 }
