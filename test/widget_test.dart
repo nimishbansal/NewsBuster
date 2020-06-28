@@ -4,12 +4,10 @@
 // utility that Flutter provides. For example, you can send tap and scroll
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:newsbuster/main.dart';
 import 'package:newsbuster/src/article.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() {
   test('parses article', () {
@@ -76,4 +74,12 @@ void main() {
       expect(parseArticles(jsonString)[0].headline, "headline1");
   });
 
+  test('parses list of article from web', () async {
+    final url = "http://7020129d0809.ngrok.io/api/v1/get-recent-posts/";
+    final res = await http.get(url);
+    if(res.statusCode == 200){
+      String jsonStr = json.encode(json.decode(res.body)["date"]["articles"]);
+      expect(parseArticles(jsonStr)[0].headline, "hea11111dline hu mai");
+    }
+  });
 }

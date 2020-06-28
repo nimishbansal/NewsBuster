@@ -1,5 +1,4 @@
 import 'dart:convert' as json;
-import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:newsbuster/src/fact_check_result.dart';
@@ -8,14 +7,17 @@ import 'package:newsbuster/src/serializers.dart';
 import 'publisher.dart';
 
 part 'article.g.dart';
-
 abstract class Article implements Built<Article, ArticleBuilder> {
   static Serializer<Article> get serializer => _$articleSerializer;
   String get headline;
   String get author;
   String get publishDate;
+  @nullable
   String get article;
+  @nullable
   String get imageUrl;
+  @nullable
+  String get articleUrl;
   Publisher get publisher;
   FactCheckResult get claim;
   Article._();

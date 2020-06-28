@@ -2,14 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
-import 'package:newsbuster/main.dart';
 
 import '../main_screen.dart';
-
-class AppInitialTour extends StatefulWidget {
-  @override
-  _AppInitialTourState createState() => _AppInitialTourState();
-}
 
 final page1 = PageViewModel(
   pageColor: const Color(0xFF03A9F4),
@@ -66,6 +60,14 @@ final page3 = PageViewModel(
 );
 
 final pages = [page1, page2, page3];
+
+
+/// App tour that is shown once user launches the app for the first time.
+class AppInitialTour extends StatefulWidget {
+  @override
+  _AppInitialTourState createState() => _AppInitialTourState();
+}
+
 
 class _AppInitialTourState extends State<AppInitialTour> {
   @override

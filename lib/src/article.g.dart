@@ -27,12 +27,6 @@ class _$ArticleSerializer implements StructuredSerializer<Article> {
       'publishDate',
       serializers.serialize(object.publishDate,
           specifiedType: const FullType(String)),
-      'article',
-      serializers.serialize(object.article,
-          specifiedType: const FullType(String)),
-      'imageUrl',
-      serializers.serialize(object.imageUrl,
-          specifiedType: const FullType(String)),
       'publisher',
       serializers.serialize(object.publisher,
           specifiedType: const FullType(Publisher)),
@@ -40,7 +34,24 @@ class _$ArticleSerializer implements StructuredSerializer<Article> {
       serializers.serialize(object.claim,
           specifiedType: const FullType(FactCheckResult)),
     ];
-
+    if (object.article != null) {
+      result
+        ..add('article')
+        ..add(serializers.serialize(object.article,
+            specifiedType: const FullType(String)));
+    }
+    if (object.imageUrl != null) {
+      result
+        ..add('imageUrl')
+        ..add(serializers.serialize(object.imageUrl,
+            specifiedType: const FullType(String)));
+    }
+    if (object.articleUrl != null) {
+      result
+        ..add('articleUrl')
+        ..add(serializers.serialize(object.articleUrl,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -75,6 +86,10 @@ class _$ArticleSerializer implements StructuredSerializer<Article> {
           result.imageUrl = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'articleUrl':
+          result.articleUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
         case 'publisher':
           result.publisher.replace(serializers.deserialize(value,
               specifiedType: const FullType(Publisher)) as Publisher);
@@ -103,6 +118,8 @@ class _$Article extends Article {
   @override
   final String imageUrl;
   @override
+  final String articleUrl;
+  @override
   final Publisher publisher;
   @override
   final FactCheckResult claim;
@@ -116,6 +133,7 @@ class _$Article extends Article {
       this.publishDate,
       this.article,
       this.imageUrl,
+      this.articleUrl,
       this.publisher,
       this.claim})
       : super._() {
@@ -127,12 +145,6 @@ class _$Article extends Article {
     }
     if (publishDate == null) {
       throw new BuiltValueNullFieldError('Article', 'publishDate');
-    }
-    if (article == null) {
-      throw new BuiltValueNullFieldError('Article', 'article');
-    }
-    if (imageUrl == null) {
-      throw new BuiltValueNullFieldError('Article', 'imageUrl');
     }
     if (publisher == null) {
       throw new BuiltValueNullFieldError('Article', 'publisher');
@@ -158,6 +170,7 @@ class _$Article extends Article {
         publishDate == other.publishDate &&
         article == other.article &&
         imageUrl == other.imageUrl &&
+        articleUrl == other.articleUrl &&
         publisher == other.publisher &&
         claim == other.claim;
   }
@@ -168,10 +181,12 @@ class _$Article extends Article {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, headline.hashCode), author.hashCode),
-                        publishDate.hashCode),
-                    article.hashCode),
-                imageUrl.hashCode),
+                    $jc(
+                        $jc($jc($jc(0, headline.hashCode), author.hashCode),
+                            publishDate.hashCode),
+                        article.hashCode),
+                    imageUrl.hashCode),
+                articleUrl.hashCode),
             publisher.hashCode),
         claim.hashCode));
   }
@@ -184,6 +199,7 @@ class _$Article extends Article {
           ..add('publishDate', publishDate)
           ..add('article', article)
           ..add('imageUrl', imageUrl)
+          ..add('articleUrl', articleUrl)
           ..add('publisher', publisher)
           ..add('claim', claim))
         .toString();
@@ -213,6 +229,10 @@ class ArticleBuilder implements Builder<Article, ArticleBuilder> {
   String get imageUrl => _$this._imageUrl;
   set imageUrl(String imageUrl) => _$this._imageUrl = imageUrl;
 
+  String _articleUrl;
+  String get articleUrl => _$this._articleUrl;
+  set articleUrl(String articleUrl) => _$this._articleUrl = articleUrl;
+
   PublisherBuilder _publisher;
   PublisherBuilder get publisher =>
       _$this._publisher ??= new PublisherBuilder();
@@ -232,6 +252,7 @@ class ArticleBuilder implements Builder<Article, ArticleBuilder> {
       _publishDate = _$v.publishDate;
       _article = _$v.article;
       _imageUrl = _$v.imageUrl;
+      _articleUrl = _$v.articleUrl;
       _publisher = _$v.publisher?.toBuilder();
       _claim = _$v.claim?.toBuilder();
       _$v = null;
@@ -263,6 +284,7 @@ class ArticleBuilder implements Builder<Article, ArticleBuilder> {
               publishDate: publishDate,
               article: article,
               imageUrl: imageUrl,
+              articleUrl: articleUrl,
               publisher: publisher.build(),
               claim: claim.build());
     } catch (_) {
