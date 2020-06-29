@@ -3,7 +3,9 @@ import 'package:newsbuster/src/notifiers/article_list_model.dart';
 import 'package:newsbuster/src/widgets/article_card.dart';
 import 'package:provider/provider.dart';
 
-const double _kScrollThreshold = 0.6;
+/// This threshold is responsible for loading next page before
+/// reaching instantaneous end of list view.
+const double _scrollThreshold = 2000;
 
 class HomeScreen extends StatefulWidget {
   final screenName = 'Home';
@@ -33,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final articleModel = Provider.of<ArticleListModel>(context, listen: false);
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
-          _kScrollThreshold * _scrollController.position.maxScrollExtent) {
+          _scrollController.position.maxScrollExtent - _scrollThreshold) {
         if (!articleModel.isLoading) articleModel.addArticles();
       }
     });

@@ -7,46 +7,34 @@ import 'search_screen.dart';
 import 'trending_screen.dart';
 
 const _kBottomNavColor = Color.fromRGBO(70, 78, 85, 1);
+const selectedBottomNavIconTheme =
+    IconThemeData(color: Colors.white, opacity: 1, size: 34);
+const unselectedBottomNavIconTheme =
+    IconThemeData(color: Colors.white70, opacity: 0.8, size: 20);
 
-final homeNavigationItem = BottomNavigationBarItem(
-  backgroundColor: _kBottomNavColor,
-  title: Text(''),
-  icon: ImageIcon(
-    AssetImage("assets/Images/navigation_icons/home.png"),
-  ),
-);
+const _navIconPath = "assets/Images/navigation_icons/";
 
-final trendingNavigationItem = BottomNavigationBarItem(
-  backgroundColor: _kBottomNavColor,
-  title: Text(''),
-  icon: ImageIcon(
-    AssetImage("assets/Images/navigation_icons/trending.png"),
-  ),
-);
 
-final searchNavigationItem = BottomNavigationBarItem(
-  backgroundColor: _kBottomNavColor,
-  title: Text(''),
-  icon: ImageIcon(
-    AssetImage("assets/Images/navigation_icons/search.png"),
-  ),
-);
+class _BottomNavTab{
+  final String name;
 
-final recentNavigationItem = BottomNavigationBarItem(
-  backgroundColor: _kBottomNavColor,
-  title: Text(''),
-  icon: ImageIcon(
-    AssetImage("assets/Images/navigation_icons/recent.png"),
-  ),
-);
+  final String iconFileName;
 
-final bookmarkNavigationItem = BottomNavigationBarItem(
-  backgroundColor: _kBottomNavColor,
-  title: Text(''),
-  icon: ImageIcon(
-    AssetImage("assets/Images/navigation_icons/bookmarks.png"),
-  ),
-);
+  /// Screen to be displayed in body depending on active navigation item.
+  final Widget screen;
+
+  _BottomNavTab({this.name, this.iconFileName, this.screen});
+
+}
+
+var _bottomNavTabs = [
+  _BottomNavTab(name: 'Trending', iconFileName: 'trending.png', screen: TrendingScreen()),
+  _BottomNavTab(name: 'Search', iconFileName: 'search.png', screen: SearchScreen()),
+  _BottomNavTab(name: 'Home', iconFileName: 'home.png', screen: HomeScreen()),
+  _BottomNavTab(name: 'Recent', iconFileName: 'recent.png', screen: RecentScreen()),
+  _BottomNavTab(name: 'Bookmark', iconFileName: 'bookmarks.png', screen: BookmarkScreen()),
+];
+
 
 /// This is the Main screen that will have all 5 navigation items
 /// defined above(homeNavigationItem, trendingNavigationItem etc)
@@ -61,37 +49,17 @@ class _MainScreenState extends State<MainScreen> {
   /// Index of current navigation item.
   int _currentIndex = 2;
 
-  /// Children to be displayed in body depending on active navigation item.
-  List<Widget> _children;
-
-  /// Title for currently Selected Screen.
-  String _title = "Home";
-
-  @override
-  void initState() {
-    super.initState();
-    _children = [
-      TrendingScreen(),
-      SearchScreen(),
-      HomeScreen(),
-      RecentScreen(),
-      BookmarkScreen(),
-    ];
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: _kBottomNavColor,
-        title: Text(_title),
+        title: Text(_bottomNavTabs[_currentIndex].name),
       ),
-      body: _children[_currentIndex],
+      body: _bottomNavTabs[_currentIndex].screen,
       bottomNavigationBar: BottomNavigationBar(
-        selectedIconTheme:
-            IconThemeData(color: Colors.white, opacity: 1, size: 34),
-        unselectedIconTheme:
-            IconThemeData(color: Colors.white70, opacity: 0.8, size: 20),
+        selectedIconTheme: selectedBottomNavIconTheme,
+        unselectedIconTheme: unselectedBottomNavIconTheme,
         onTap: (index) => _onNavTapped(index, context),
         showSelectedLabels: false,
         showUnselectedLabels: false,
@@ -99,11 +67,14 @@ class _MainScreenState extends State<MainScreen> {
         type: BottomNavigationBarType.shifting,
         currentIndex: _currentIndex,
         items: [
-          trendingNavigationItem,
-          searchNavigationItem,
-          homeNavigationItem,
-          recentNavigationItem,
-          bookmarkNavigationItem,
+          for (final navTab in _bottomNavTabs)
+            BottomNavigationBarItem(
+              backgroundColor: _kBottomNavColor,
+              title: Text(''),
+              icon: ImageIcon(
+                AssetImage(_navIconPath + navTab.iconFileName),
+              ),
+            )
         ],
       ),
     );
@@ -117,33 +88,6 @@ class _MainScreenState extends State<MainScreen> {
     }
     setState(() {
       _currentIndex = index;
-      switch (index) {
-        case 0:
-          {
-            _title = 'Trending';
-          }
-          break;
-        case 1:
-          {
-            _title = 'Search';
-          }
-          break;
-        case 2:
-          {
-            _title = 'Home';
-          }
-          break;
-        case 3:
-          {
-            _title = 'Recent';
-          }
-          break;
-        case 4:
-          {
-            _title = 'Bookmarks';
-          }
-          break;
-      }
     });
   }
 }
