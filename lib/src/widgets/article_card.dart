@@ -23,7 +23,7 @@ class _ArticleCardState extends State<ArticleCard> {
         splashColor: Colors.blue.withAlpha(30),
         onTap: () {
           if (widget.article != null && widget.article.articleUrl != null) {
-            launch(widget.article.articleUrl, forceWebView: true);
+            launch(widget.article.articleUrl, forceWebView: true,enableJavaScript: true);
           }
         },
         child: Container(

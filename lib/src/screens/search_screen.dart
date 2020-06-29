@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newsbuster/src/article.dart';
 
 class SearchScreen extends StatefulWidget {
   final screenName = 'Search';
@@ -46,24 +47,42 @@ class _SearchScreenState extends State<SearchScreen> {
                 icon: Icon(Icons.search),
               ),
               style: TextStyle(fontSize: 18),
-
             ),
           ),
         ),
       ],
     );
-    LinearGradient gradient1 = LinearGradient(
-      colors: [],
-      stops: [0.7, 0.3],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-    );
-    return Container(
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: gradient1,
-        ),
+  }
+}
+
+class ArticleSearch extends SearchDelegate<Article> {
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.close),
+        onPressed: () {},
       ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.arrow_back_ios),
+      onPressed: () {
+        close(context, null);
+      },
     );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return Container();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return Container();
   }
 }

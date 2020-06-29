@@ -6,7 +6,6 @@ import 'recent_screen.dart';
 import 'search_screen.dart';
 import 'trending_screen.dart';
 
-
 const _kBottomNavColor = Color.fromRGBO(70, 78, 85, 1);
 
 final homeNavigationItem = BottomNavigationBarItem(
@@ -49,7 +48,6 @@ final bookmarkNavigationItem = BottomNavigationBarItem(
   ),
 );
 
-
 /// This is the Main screen that will have all 5 navigation items
 /// defined above(homeNavigationItem, trendingNavigationItem etc)
 ///
@@ -60,7 +58,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-
   /// Index of current navigation item.
   int _currentIndex = 2;
 
@@ -95,7 +92,7 @@ class _MainScreenState extends State<MainScreen> {
             IconThemeData(color: Colors.white, opacity: 1, size: 34),
         unselectedIconTheme:
             IconThemeData(color: Colors.white70, opacity: 0.8, size: 20),
-        onTap: _onNavTapped,
+        onTap: (index) => _onNavTapped(index, context),
         showSelectedLabels: false,
         showUnselectedLabels: false,
         backgroundColor: _kBottomNavColor,
@@ -112,21 +109,40 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  void _onNavTapped(int index) {
+  void _onNavTapped(int index, BuildContext context) async {
+    // TODO: handle single control for ordering of nav-items
+    if (index == 1) {
+      await showSearch(context: context, delegate: ArticleSearch());
+      return;
+    }
     setState(() {
       _currentIndex = index;
-      switch(index) {
-        case 0: { _title = 'Trending'; }
-        break;
-        case 1: { _title = 'Search'; }
-        break;
-        case 2: { _title = 'Home'; }
-        break;
-        case 3: { _title = 'Recent'; }
-        break;
-        case 4: { _title = 'Bookmarks'; }
-        break;
-
+      switch (index) {
+        case 0:
+          {
+            _title = 'Trending';
+          }
+          break;
+        case 1:
+          {
+            _title = 'Search';
+          }
+          break;
+        case 2:
+          {
+            _title = 'Home';
+          }
+          break;
+        case 3:
+          {
+            _title = 'Recent';
+          }
+          break;
+        case 4:
+          {
+            _title = 'Bookmarks';
+          }
+          break;
       }
     });
   }

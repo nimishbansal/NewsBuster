@@ -32,7 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final articleModel = Provider.of<ArticleListModel>(context, listen: false);
     _scrollController.addListener(() {
-      print(_scrollController.position.pixels);
       if (_scrollController.position.pixels >=
           _kScrollThreshold * _scrollController.position.maxScrollExtent) {
         if (!articleModel.isLoading) articleModel.addArticles();
