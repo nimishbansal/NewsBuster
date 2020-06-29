@@ -5,6 +5,9 @@ import 'package:intro_views_flutter/intro_views_flutter.dart';
 
 import '../main_screen.dart';
 
+const skipTourForTesting = true;
+
+
 final page1 = PageViewModel(
   pageColor: const Color(0xFF03A9F4),
   // iconImageAssetPath: 'assets/air-hostess.png',
@@ -72,27 +75,33 @@ class AppInitialTour extends StatefulWidget {
 class _AppInitialTourState extends State<AppInitialTour> {
   @override
   Widget build(BuildContext context) {
+    if (skipTourForTesting){
+      Future(()=>_handleOnTapDone(context));
+    }
     return Scaffold(
       body: IntroViewsFlutter(
         pages,
         showNextButton: false,
         showBackButton: false,
         showSkipButton: false,
-        onTapDoneButton: () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => !kIsWeb
-                  ? MainScreen()
-                  : MainScreen(),
-            ), //MaterialPageRoute
-          );
-        },
+        onTapDoneButton: ()=> _handleOnTapDone(context),
         pageButtonTextStyles: TextStyle(
           color: Colors.white,
           fontSize: 18.0,
         ),
       ),
+    );
+  }
+
+  void _handleOnTapDone(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+        !kIsWeb
+                ? MainScreen()
+                : MainScreen(),
+      ), //MaterialPageRoute
     );
   }
 }

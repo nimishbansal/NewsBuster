@@ -15,6 +15,7 @@ const unselectedBottomNavIconTheme =
 const _navIconPath = "assets/Images/navigation_icons/";
 
 
+
 class _BottomNavTab{
   final String name;
 
@@ -81,11 +82,6 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _onNavTapped(int index, BuildContext context) async {
-    // TODO: handle single control for ordering of nav-items
-    if (index == 1) {
-      await showSearch(context: context, delegate: ArticleSearch());
-      return;
-    }
     setState(() {
       _currentIndex = index;
     });

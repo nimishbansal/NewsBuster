@@ -11,32 +11,12 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
+    Future(()=>showSearch(context: context, delegate: ArticleSearch()));
+    return Center(child: Container(color: Colors.white30,),);
+    /*
     return ListView(
       children: [
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 0.35 * MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment(
-                      1, 1), // 10% of the width, so there are ten blinds.
-                  colors: [
-                    const Color(0xCC0060FF),
-                    Color(0xFF0060FF),
-                    const Color(0xFFAABBFF)
-                  ],
-                  stops: [0, 0.33, 0.66],
-                  tileMode:
-                      TileMode.repeated, // repeats the gradient over the canvas
-                ),
-              ),
-            ),
-          ),
-        ),
+
         Card(
           child: Padding(
             padding: const EdgeInsets.all(4.0),
@@ -52,6 +32,7 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ],
     );
+    */
   }
 }
 
