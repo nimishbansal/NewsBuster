@@ -4,6 +4,7 @@ import 'package:newsbuster/src/screens/home_screen.dart';
 import 'package:newsbuster/src/screens/trending_screen.dart';
 import 'package:newsbuster/src/screens/recent_screen.dart';
 import 'package:newsbuster/src/widgets/article_card.dart';
+import 'package:newsbuster/src/widgets/article_card_2.dart';
 import 'package:provider/provider.dart';
 
 /// This threshold is responsible for loading next page before
@@ -62,7 +63,7 @@ abstract class BaseArticleListScreenState<T extends BaseArticleListScreen>
           return ListView.builder(
             itemBuilder: _itemBuilder,
             controller: _scrollController,
-            itemCount: articleModel.articles.length + 10,
+            itemCount: articleModel.articles.length + 2,
           );
         }),
       ),
@@ -85,9 +86,9 @@ abstract class BaseArticleListScreenState<T extends BaseArticleListScreen>
       );
     }
     if (index < articles.length) {
-      return ArticleCard(article: articles[index]);
+      return ArticleCard2(article: articles[index]);
     } else {
-      return ArticleCard(
+      return ArticleCard2(
         article: null,
       );
     }

@@ -17,7 +17,7 @@ class _ArticleCardState extends State<ArticleCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2,
+      elevation: 1,
       shadowColor: Colors.orangeAccent,
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),

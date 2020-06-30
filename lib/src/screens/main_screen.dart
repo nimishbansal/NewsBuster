@@ -7,11 +7,11 @@ import 'recent_screen.dart';
 import 'search_screen.dart';
 import 'trending_screen.dart';
 
-const _kBottomNavColor = Color.fromRGBO(70, 78, 85, 1);
+const _kBottomNavColor = Colors.white;
 const selectedBottomNavIconTheme =
-    IconThemeData(color: Colors.white, opacity: 1, size: 34);
+    IconThemeData(color: Colors.blue, opacity: 1, size: 20);
 const unselectedBottomNavIconTheme =
-    IconThemeData(color: Colors.white70, opacity: 0.8, size: 20);
+    IconThemeData(color: Colors.black, opacity: 1, size: 20);
 
 const _navIconPath = "assets/Images/navigation_icons/";
 
@@ -59,31 +59,49 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: _kBottomNavColor,
-        title: Text(_bottomNavTabs[_currentIndex].name),
-      ),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(0),
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+          )),
       body: _getScreenFromCurrentIndex(_bottomNavTabs[_currentIndex])
           as StatefulWidget,
-      bottomNavigationBar: BottomNavigationBar(
-        selectedIconTheme: selectedBottomNavIconTheme,
-        unselectedIconTheme: unselectedBottomNavIconTheme,
-        onTap: (index) => _onNavTapped(index, context),
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        backgroundColor: _kBottomNavColor,
-        type: BottomNavigationBarType.shifting,
-        currentIndex: _currentIndex,
-        items: [
-          for (final navTab in _bottomNavTabs)
-            BottomNavigationBarItem(
-              backgroundColor: _kBottomNavColor,
-              title: Text(''),
-              icon: ImageIcon(
-                AssetImage(_navIconPath + navTab.iconFileName),
-              ),
-            )
-        ],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+                BoxShadow(
+                color: Colors.black54,
+                blurRadius: 4.0,
+                offset: Offset(0.0, 0.1),
+                ),
+          ]
+        ),
+        child: BottomNavigationBar(
+          selectedIconTheme: selectedBottomNavIconTheme,
+          unselectedIconTheme: unselectedBottomNavIconTheme,
+          onTap: (index) => _onNavTapped(index, context),
+          selectedLabelStyle: TextStyle(color: Colors.blue),
+          unselectedLabelStyle: TextStyle(color: Colors.black),
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+          backgroundColor: _kBottomNavColor,
+          type: BottomNavigationBarType.fixed,
+          elevation: 10,
+          currentIndex: _currentIndex,
+          items: [
+            for (final navTab in _bottomNavTabs)
+              BottomNavigationBarItem(
+                backgroundColor: _kBottomNavColor,
+                title: Text(
+                  navTab.name,
+                ),
+                icon: ImageIcon(
+                  AssetImage(_navIconPath + navTab.iconFileName),
+                  size: 20,
+                ),
+              )
+          ],
+        ),
       ),
     );
   }
