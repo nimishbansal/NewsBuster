@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:newsbuster/src/notifiers/article_list_model.dart';
+import 'package:newsbuster/src/screens/base_article_list_screen.dart';
 
-class TrendingScreen extends StatefulWidget {
 
-  final screenName = 'Trending';
-
+class TrendingScreen extends BaseArticleListScreen{
+  TrendingScreen({ArticlesType articleType}):super(articleType:articleType);
   @override
-  _TrendingScreenState createState() => _TrendingScreenState();
-}
-
-class _TrendingScreenState extends State<TrendingScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: Text(widget.screenName),
-    );
+  TrendingScreenState createState() {
+    return TrendingScreenState();
   }
 }
+class TrendingScreenState extends BaseArticleListScreenState{}

@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:newsbuster/src/notifiers/article_list_model.dart';
+import 'package:newsbuster/src/screens/base_article_list_screen.dart';
 
-class RecentScreen extends StatefulWidget {
-
-  final screenName = 'Recent';
-
+class RecentScreen extends BaseArticleListScreen{
+  RecentScreen({ArticlesType articleType}):super(articleType:articleType);
   @override
-  _RecentScreenState createState() => _RecentScreenState();
-}
-
-class _RecentScreenState extends State<RecentScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: Text(widget.screenName),
-    );
+  RecentScreenState createState() {
+    return RecentScreenState();
   }
 }
+
+class RecentScreenState extends BaseArticleListScreenState{}
