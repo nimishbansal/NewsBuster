@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:newsbuster/src/article.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:share/share.dart';
 
 var _longEmptyString = "..................................................."
     ".........................................";
@@ -34,7 +35,9 @@ class _ArticleCard2State extends State<ArticleCard2> {
     var _cardContainer = Container(
       width: _cardWidth,
       height: _imageHeight,
-      child: _isLoaded?Image.network(widget.article.imageUrl, fit: BoxFit.fill):null,
+      child: _isLoaded
+          ? Image.network(widget.article.imageUrl, fit: BoxFit.fill)
+          : null,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -97,10 +100,10 @@ class _ArticleCard2State extends State<ArticleCard2> {
             height: double.infinity,
             child: Align(
               child: _isLoaded
-                      ? Image.network(
-                widget.article.imageUrl,
-              )
-                      : null,
+                  ? Image.network(
+                      widget.article.imageUrl,
+                    )
+                  : null,
             ),
           ),
           Spacer(),
@@ -124,19 +127,26 @@ class _ArticleCard2State extends State<ArticleCard2> {
             ),
           ),
           Spacer(),
-          Icon(Icons.share),
+          InkWell(
+            child: Icon(Icons.share, size: 30,),
+            onTap: () {
+              Future.delayed(Duration(milliseconds: 400), () {
+                Share.share(widget.article.articleUrl, subject: 'Share with');
+              });
+            },
+            splashColor:Colors.blueGrey,
+            radius: 50,
+          ),
         ],
       ),
     );
     var _bottomRow = !_isLoaded
-            ? Shimmer.fromColors(
-      child: _articleTextIntroContainer,
-      baseColor: Color(0xFFe2e2e2),
-      highlightColor: Colors.white,
-    )
-            : _bottomRowContainer;
-
-
+        ? Shimmer.fromColors(
+            child: _articleTextIntroContainer,
+            baseColor: Color(0xFFe2e2e2),
+            highlightColor: Colors.white,
+          )
+        : _bottomRowContainer;
 
     return Card(
       elevation: 1,
@@ -164,27 +174,19 @@ class _ArticleCard2State extends State<ArticleCard2> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-
                 _cardImage,
-
                 SizedBox(
                   height: 0.015 * MediaQuery.of(context).size.height,
                 ),
-
                 _headline,
-
                 SizedBox(
                   height: 0.015 * MediaQuery.of(context).size.height,
                 ),
-
                 _articleTextIntro,
-
                 SizedBox(
                   height: 0.015 * MediaQuery.of(context).size.height,
                 ),
-
                 _bottomRow,
-
                 SizedBox(
                   height: 0.01 * MediaQuery.of(context).size.height,
                 ),
