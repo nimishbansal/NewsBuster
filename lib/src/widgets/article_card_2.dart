@@ -34,8 +34,9 @@ class _ArticleCard2State extends State<ArticleCard2> {
     var _cardContainer = Container(
       width: _cardWidth,
       height: _imageHeight,
+      child: _isLoaded?Image.network(widget.article.imageUrl, fit: BoxFit.fill):null,
       decoration: BoxDecoration(
-        color: Colors.blue,
+        color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
     );
@@ -54,7 +55,7 @@ class _ArticleCard2State extends State<ArticleCard2> {
         _isLoaded ? widget.article.headline : _longEmptyString,
         overflow: TextOverflow.ellipsis,
         maxLines: 3,
-        style: GoogleFonts.eagleLake(
+        style: GoogleFonts.kanit(
           textStyle: TextStyle(fontSize: 18),
         ),
       ),
@@ -86,6 +87,57 @@ class _ArticleCard2State extends State<ArticleCard2> {
             highlightColor: Colors.white,
           )
         : _articleTextIntroContainer;
+
+    var _bottomRowContainer = Container(
+      height: _cardBottomStripHeight,
+      width: _cardWidth,
+      child: Row(
+        children: [
+          Container(
+            height: double.infinity,
+            child: Align(
+              child: _isLoaded
+                      ? Image.network(
+                widget.article.imageUrl,
+              )
+                      : null,
+            ),
+          ),
+          Spacer(),
+          Container(
+            height: double.infinity,
+            child: Align(
+              child: Text(
+                _isLoaded ? widget.article.publishDate : '',
+                style: _greyColorTextStyle,
+              ),
+            ),
+          ),
+          Spacer(),
+          Container(
+            height: double.infinity,
+            child: Align(
+              child: Text(
+                _isLoaded ? widget.article.publisher.name : '',
+                style: _greyColorTextStyle,
+              ),
+            ),
+          ),
+          Spacer(),
+          Icon(Icons.share),
+        ],
+      ),
+    );
+    var _bottomRow = !_isLoaded
+            ? Shimmer.fromColors(
+      child: _articleTextIntroContainer,
+      baseColor: Color(0xFFe2e2e2),
+      highlightColor: Colors.white,
+    )
+            : _bottomRowContainer;
+
+
+
     return Card(
       elevation: 1,
       shadowColor: Colors.grey,
@@ -131,47 +183,8 @@ class _ArticleCard2State extends State<ArticleCard2> {
                   height: 0.015 * MediaQuery.of(context).size.height,
                 ),
 
-                //bottom row
-                Container(
-                  height: _cardBottomStripHeight,
-                  width: _cardWidth,
-                  child: Row(
-                    children: [
-                      Container(
-                        height: double.infinity,
-                        child: Align(
-                          child: _isLoaded
-                              ? Image.network(
-                                  widget.article.imageUrl,
-                                )
-                              : null,
-                        ),
-                      ),
-                      Spacer(),
-                      Container(
-                        height: double.infinity,
-                        child: Align(
-                          child: Text(
-                            _isLoaded ? widget.article.publishDate : '',
-                            style: _greyColorTextStyle,
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      Container(
-                        height: double.infinity,
-                        child: Align(
-                          child: Text(
-                            _isLoaded ? widget.article.publisher.name : '',
-                            style: _greyColorTextStyle,
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      Icon(Icons.share),
-                    ],
-                  ),
-                ),
+                _bottomRow,
+
                 SizedBox(
                   height: 0.01 * MediaQuery.of(context).size.height,
                 ),
