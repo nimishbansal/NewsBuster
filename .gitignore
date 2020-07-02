@@ -42,3 +42,6 @@ app.*.map.json
 
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+
+# Intentionally ignored, because we don't want to see anyone's secret API keys in the repo
+lib/dsn.dart
