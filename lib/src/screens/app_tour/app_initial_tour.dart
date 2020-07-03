@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:websafe_svg/websafe_svg.dart';
-
 import '../main_screen.dart';
 
 const skipTourForTesting = true;
@@ -14,9 +12,6 @@ class _TourScreen {
 
   _TourScreen({this.text, this.imagePath});
 
-  bool get isSvg {
-    return this.imagePath.endsWith(".svg");
-  }
 }
 
 /// Pages for the screens thar are displayed in app tour.
@@ -76,10 +71,7 @@ class _Page extends StatelessWidget {
                   child: Container(
                     width: _imageWidth,
                     height: _imageHeight,
-                    child: tourScreen.isSvg
-                        ? WebsafeSvg.asset(
-                            _appTourAssetPath + tourScreen.imagePath)
-                        : Image.asset(
+                    child: Image.asset(
                             _appTourAssetPath + tourScreen.imagePath,
                             width: double.infinity,
                             height: double.infinity,

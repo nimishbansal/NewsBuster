@@ -47,8 +47,6 @@ dependencies:
 
   share: ^0.6.4+3
 
-  websafe_svg: ^1.1.0
-
   sentry: ^3.0.1
 
   # for DB stuff
