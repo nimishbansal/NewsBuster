@@ -24,7 +24,7 @@ class _BottomNavTab {
 }
 
 var _bottomNavTabs = [
-  _BottomNavTab(name: 'Trending', iconFileName: 'trending.png'),
+  _BottomNavTab(name: 'Trending', iconFileName: 'trending.png',),
   _BottomNavTab(
     name: 'Search',
     iconFileName: 'search.png',
@@ -121,7 +121,7 @@ class _MainScreenState extends State<MainScreen> {
       case 'Recent':
         return RecentScreen(articleType: ArticlesType.Recent);
       case 'Bookmark':
-        return BookmarkScreen();
+        return BookmarkScreen(articleType: ArticlesType.Bookmarks);
       case 'Search':
         return SearchScreen();
     }

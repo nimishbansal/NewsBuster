@@ -18,6 +18,8 @@ class _$ArticleSerializer implements StructuredSerializer<Article> {
   Iterable<Object> serialize(Serializers serializers, Article object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
+      'id',
+      serializers.serialize(object.id, specifiedType: const FullType(String)),
       'headline',
       serializers.serialize(object.headline,
           specifiedType: const FullType(String)),
@@ -66,6 +68,10 @@ class _$ArticleSerializer implements StructuredSerializer<Article> {
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
         case 'headline':
           result.headline = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
@@ -108,6 +114,8 @@ class _$ArticleSerializer implements StructuredSerializer<Article> {
 
 class _$Article extends Article {
   @override
+  final String id;
+  @override
   final String headline;
   @override
   final String author;
@@ -128,7 +136,8 @@ class _$Article extends Article {
       (new ArticleBuilder()..update(updates)).build();
 
   _$Article._(
-      {this.headline,
+      {this.id,
+      this.headline,
       this.author,
       this.publishDate,
       this.article,
@@ -137,6 +146,9 @@ class _$Article extends Article {
       this.publisher,
       this.claim})
       : super._() {
+    if (id == null) {
+      throw new BuiltValueNullFieldError('Article', 'id');
+    }
     if (headline == null) {
       throw new BuiltValueNullFieldError('Article', 'headline');
     }
@@ -165,6 +177,7 @@ class _$Article extends Article {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is Article &&
+        id == other.id &&
         headline == other.headline &&
         author == other.author &&
         publishDate == other.publishDate &&
@@ -182,7 +195,9 @@ class _$Article extends Article {
             $jc(
                 $jc(
                     $jc(
-                        $jc($jc($jc(0, headline.hashCode), author.hashCode),
+                        $jc(
+                            $jc($jc($jc(0, id.hashCode), headline.hashCode),
+                                author.hashCode),
                             publishDate.hashCode),
                         article.hashCode),
                     imageUrl.hashCode),
@@ -194,6 +209,7 @@ class _$Article extends Article {
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Article')
+          ..add('id', id)
           ..add('headline', headline)
           ..add('author', author)
           ..add('publishDate', publishDate)
@@ -208,6 +224,10 @@ class _$Article extends Article {
 
 class ArticleBuilder implements Builder<Article, ArticleBuilder> {
   _$Article _$v;
+
+  String _id;
+  String get id => _$this._id;
+  set id(String id) => _$this._id = id;
 
   String _headline;
   String get headline => _$this._headline;
@@ -247,6 +267,7 @@ class ArticleBuilder implements Builder<Article, ArticleBuilder> {
 
   ArticleBuilder get _$this {
     if (_$v != null) {
+      _id = _$v.id;
       _headline = _$v.headline;
       _author = _$v.author;
       _publishDate = _$v.publishDate;
@@ -279,6 +300,7 @@ class ArticleBuilder implements Builder<Article, ArticleBuilder> {
     try {
       _$result = _$v ??
           new _$Article._(
+              id: id,
               headline: headline,
               author: author,
               publishDate: publishDate,

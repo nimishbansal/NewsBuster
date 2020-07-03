@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:newsbuster/src/bookmark_db.dart';
 import 'package:newsbuster/src/notifiers/article_list_model.dart';
 import 'package:newsbuster/src/screens/app_tour/app_initial_tour.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry/sentry.dart';
 import 'dsn.dart';
 
+MyDatabase db;
 
 
 /// Sentry Configuration Starts here ///
@@ -53,6 +55,7 @@ Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
 
 Future<Null> main() async {
     // This captures errors reported by the Flutter framework.
+    db = MyDatabase();
     FlutterError.onError = (FlutterErrorDetails details) async {
         if (isInDebugMode) {
             // In development mode simply print to console.
@@ -99,6 +102,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (BuildContext context) {
           return ArticleListModel();
         },),
+
+        Provider(
+            create: (BuildContext context){
+                return db;
+            },
+        ),
+
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

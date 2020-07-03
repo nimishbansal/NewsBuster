@@ -9,6 +9,7 @@ import 'publisher.dart';
 part 'article.g.dart';
 abstract class Article implements Built<Article, ArticleBuilder> {
   static Serializer<Article> get serializer => _$articleSerializer;
+  String get id;
   String get headline;
   String get author;
   String get publishDate;

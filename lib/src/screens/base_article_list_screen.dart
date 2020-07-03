@@ -60,10 +60,17 @@ abstract class BaseArticleListScreenState<T extends BaseArticleListScreen>
     return Center(
       child: Container(
         child: Consumer<ArticleListModel>(builder: (_, articleListModel, __) {
+
+          if (articleModel.articles.length == 0 && !articleModel.isLoading && widget.articleType == ArticlesType.Bookmarks){
+            return Center(
+              child: Text('No articles Bookmarked'),
+            );
+          }
+
           return ListView.builder(
             itemBuilder: _itemBuilder,
             controller: _scrollController,
-            itemCount: articleModel.articles.length + 2,
+            itemCount: articleModel.articles.length + ((articleModel.isNullForShimmer)?2:0),
           );
         }),
       ),

@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:newsbuster/src/article.dart';
+import 'package:newsbuster/src/bookmark_db.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share/share.dart';
@@ -54,6 +56,8 @@ class _ArticleCard2State extends State<ArticleCard2> {
 
     var _headlineContainer = Container(
       color: Colors.white,
+      width: _cardWidth,
+      alignment: Alignment.center,
       child: Text(
         _isLoaded ? widget.article.headline : _longEmptyString,
         overflow: TextOverflow.ellipsis,
@@ -91,110 +95,143 @@ class _ArticleCard2State extends State<ArticleCard2> {
           )
         : _articleTextIntroContainer;
 
-    var _bottomRowContainer = Container(
-      height: _cardBottomStripHeight,
-      width: _cardWidth,
-      child: Row(
-        children: [
-          Container(
-            height: double.infinity,
-            child: Align(
-              child: _isLoaded
-                  ? Image.network(
-                      widget.article.imageUrl,
-                    )
-                  : null,
-            ),
-          ),
-          Spacer(),
-          Container(
-            height: double.infinity,
-            child: Align(
-              child: Text(
-                _isLoaded ? widget.article.publishDate : '',
-                style: _greyColorTextStyle,
+    var _bottomRowContainer = (AsyncSnapshot<bool> snapshot) => Container(
+          height: _cardBottomStripHeight,
+          width: _cardWidth,
+          child: Row(
+            children: [
+              Container(
+                height: double.infinity,
+                child: Align(
+                  child: _isLoaded
+                      ? Image.network(
+                          widget.article.imageUrl,
+                        )
+                      : null,
+                ),
               ),
-            ),
-          ),
-          Spacer(),
-          Container(
-            height: double.infinity,
-            child: Align(
-              child: Text(
-                _isLoaded ? widget.article.publisher.name : '',
-                style: _greyColorTextStyle,
+              Spacer(),
+              Container(
+                height: double.infinity,
+                child: Align(
+                  child: Text(
+                    _isLoaded ? widget.article.publishDate : '',
+                    style: _greyColorTextStyle,
+                  ),
+                ),
               ),
-            ),
+              Spacer(),
+              Container(
+                height: double.infinity,
+                child: Align(
+                  child: Text(
+                    _isLoaded ? widget.article.publisher.name : '',
+                    style: _greyColorTextStyle,
+                  ),
+                ),
+              ),
+
+              Spacer(),
+
+              // Bookmark Button
+              InkWell(
+                child: Icon(
+                  (snapshot.hasData && snapshot.data)
+                      ? Icons.bookmark
+                      : Icons.bookmark_border,
+                  size: 30,
+                ),
+                onTap: () {
+                  if (snapshot.hasData) {
+                    if (!snapshot.data) {
+                      Provider.of<MyDatabase>(context)
+                          .addBookmarked(widget.article);
+                    } else {
+                      Provider.of<MyDatabase>(context)
+                          .removeBookmarked(widget.article);
+                    }
+                  }
+                },
+              ),
+              Spacer(),
+              // Share Widget
+              InkWell(
+                child: Icon(
+                  Icons.share,
+                  size: 30,
+                ),
+                onTap: () {
+                  Future.delayed(Duration(milliseconds: 400), () {
+                    Share.share(widget.article.articleUrl,
+                        subject: 'Share with');
+                  });
+                },
+                splashColor: Colors.blueGrey,
+                radius: 50,
+              ),
+            ],
           ),
-          Spacer(),
-          InkWell(
-            child: Icon(Icons.share, size: 30,),
-            onTap: () {
-              Future.delayed(Duration(milliseconds: 400), () {
-                Share.share(widget.article.articleUrl, subject: 'Share with');
-              });
-            },
-            splashColor:Colors.blueGrey,
-            radius: 50,
-          ),
-        ],
-      ),
-    );
-    var _bottomRow = !_isLoaded
+        );
+    var _bottomRow = (AsyncSnapshot<bool> snapshot) => !_isLoaded
         ? Shimmer.fromColors(
             child: _articleTextIntroContainer,
             baseColor: Color(0xFFe2e2e2),
             highlightColor: Colors.white,
           )
-        : _bottomRowContainer;
+        : _bottomRowContainer(snapshot);
 
     return Card(
       elevation: 1,
       shadowColor: Colors.grey,
-      child: InkWell(
-        splashColor: Colors.blue.withAlpha(100),
-        onTap: () {
-          if (widget.article != null && widget.article.articleUrl != null) {
-            launch(widget.article.articleUrl,
-                forceWebView: true, enableJavaScript: true);
-          }
-        },
-        child: Center(
-          widthFactor: 1.1,
-          heightFactor: 1.05,
-          child: Container(
-            height: _cardHeight,
-            width: _cardWidth,
-            decoration: BoxDecoration(
-              color: Colors.white70,
-              borderRadius: BorderRadius.all(
-                Radius.circular(8),
+      child: StreamBuilder<bool>(
+          stream: Provider.of<MyDatabase>(context).isBookmarked(widget.article),
+          builder: (context, snapshot) {
+            return InkWell(
+              splashColor: Colors.blue.withAlpha(100),
+              onTap: () {
+                if (widget.article != null &&
+                    widget.article.articleUrl != null) {
+                  launch(widget.article.articleUrl,
+                      forceWebView: true, enableJavaScript: true);
+                }
+              },
+              child: Center(
+                widthFactor: 1.1,
+                heightFactor: 1.05,
+                child: Container(
+                  height: _cardHeight,
+                  width: _cardWidth,
+                  decoration: BoxDecoration(
+                    color: Colors.white70,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _cardImage,
+                      SizedBox(
+                        height: 0.015 * MediaQuery.of(context).size.height,
+                      ),
+                      _headline,
+                      SizedBox(
+                        height: 0.015 * MediaQuery.of(context).size.height,
+                      ),
+                      _articleTextIntro,
+                      SizedBox(
+                        height: 0.015 * MediaQuery.of(context).size.height,
+                      ),
+                      _bottomRow(snapshot),
+                      SizedBox(
+                        height: 0.01 * MediaQuery.of(context).size.height,
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _cardImage,
-                SizedBox(
-                  height: 0.015 * MediaQuery.of(context).size.height,
-                ),
-                _headline,
-                SizedBox(
-                  height: 0.015 * MediaQuery.of(context).size.height,
-                ),
-                _articleTextIntro,
-                SizedBox(
-                  height: 0.015 * MediaQuery.of(context).size.height,
-                ),
-                _bottomRow,
-                SizedBox(
-                  height: 0.01 * MediaQuery.of(context).size.height,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+            );
+          }),
     );
   }
 }

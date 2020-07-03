@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:newsbuster/src/article.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:newsbuster/main.dart';
 
-enum ArticlesType { Recent, Trending, Home }
+enum ArticlesType { Recent, Trending, Home, Bookmarks }
 
 List<Article> defaultArticlesNullList = [null, null, null, null, null, null];
 
