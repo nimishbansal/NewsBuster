@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:newsbuster/src/notifiers/article_list_model.dart';
 import 'package:newsbuster/src/screens/base_article_list_screen.dart';
 

@@ -24,7 +24,7 @@ final SentryClient _sentry = new SentryClient(dsn: dsn);
 /// This is useful to decide whether a report should be sent to sentry. Usually
 /// reports from dev mode are not very useful, as these happen on developers'
 /// workspaces rather than on users' devices in production.
-bool isInDebugMode = false;
+bool isInDebugMode = true;
 
 /// Reports [error] along with its [stackTrace] to Sentry.io.
 Future<Null> _reportError(dynamic error, dynamic stackTrace) async {

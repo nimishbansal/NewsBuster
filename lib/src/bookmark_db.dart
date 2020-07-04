@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'dart:convert' as json;
+import 'package:moor/moor.dart';
 import 'package:newsbuster/src/article.dart';
 import 'package:newsbuster/src/serializers.dart';
 import 'package:path/path.dart' as p;
-import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:math' as math;

@@ -3,7 +3,6 @@ import 'package:newsbuster/src/notifiers/article_list_model.dart';
 import 'package:newsbuster/src/screens/home_screen.dart';
 import 'package:newsbuster/src/screens/trending_screen.dart';
 import 'package:newsbuster/src/screens/recent_screen.dart';
-import 'package:newsbuster/src/widgets/article_card.dart';
 import 'package:newsbuster/src/widgets/article_card_2.dart';
 import 'package:provider/provider.dart';
 
