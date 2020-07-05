@@ -39,9 +39,11 @@ class JsonModifierPlugin extends StandardJsonPlugin{
   Object beforeDeserialize(Object object, FullType specifiedType) {
         if (specifiedType.toString() == (Article).toString()){
             LinkedHashMap<String, dynamic> object1 = object;
-            object1['id'] = object1['_id']; // _id is article id
-            object1.remove("_id");
-            object = object1;
+            if (object1.containsKey('_id')){
+                object1['id'] = object1['_id']; // _id is article id
+                object1.remove("_id");
+                object = object1;
+            }
         }
         return super.beforeDeserialize(object, specifiedType);
   }
