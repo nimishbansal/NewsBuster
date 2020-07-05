@@ -7,6 +7,9 @@ abstract class Publisher implements Built<Publisher, PublisherBuilder> {
   static Serializer<Publisher> get serializer => _$publisherSerializer;
 
   String get name;
+  String get publisherImageUrl;
   Publisher._();
   factory Publisher([void Function(PublisherBuilder) updates]) = _$Publisher;
+
+
 }

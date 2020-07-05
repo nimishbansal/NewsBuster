@@ -31,8 +31,8 @@ class ArticleListModel extends ChangeNotifier {
     return _currentArticleType;
   }
 
-//    static const _baseUrl = "http://7020129d0809.ngrok.io/api/v1/";
-  static const _baseUrl = "http://nimishbansal.pythonanywhere.com/";
+    static const _baseUrl = "http://3.14.8.229:8001/api/v1";
+//  static const _baseUrl = "http://nimishbansal.pythonanywhere.com/";
   static const _recentPostsEndPoint = "/get-recent-posts";
   static const _trendingPostsEndPoint = "/get-trending-posts";
   static const _homePostsEndPoint = "/get-home-posts";
@@ -44,7 +44,7 @@ class ArticleListModel extends ChangeNotifier {
       String jsonStr = json.encode(json.decode(res.body)["data"]["articles"]);
       return parseArticles(jsonStr);
     }
-    throw Exception("Error occurred while fetching articles at page $page");
+    throw Exception("Error occurred while fetching articles at page $page with response ${res.body}");
   }
 
 

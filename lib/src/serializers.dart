@@ -1,6 +1,8 @@
 
 library serializers;
 
+import 'dart:collection';
+
 import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
 
@@ -29,4 +31,18 @@ part 'serializers.g.dart';
 
 final Serializers serializers = _$serializers;
 final standardSerializers =
-(serializers.toBuilder()..addPlugin(new StandardJsonPlugin())).build();
+(serializers.toBuilder()..addPlugin(new JsonModifierPlugin())).build();
+
+class JsonModifierPlugin extends StandardJsonPlugin{
+
+    @override
+  Object beforeDeserialize(Object object, FullType specifiedType) {
+        if (specifiedType.toString() == (Article).toString()){
+            LinkedHashMap<String, dynamic> object1 = object;
+            object1['id'] = object1['_id']; // _id is article id
+            object1.remove("_id");
+            object = object1;
+        }
+        return super.beforeDeserialize(object, specifiedType);
+  }
+}

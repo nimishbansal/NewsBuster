@@ -20,6 +20,9 @@ class _$PublisherSerializer implements StructuredSerializer<Publisher> {
     final result = <Object>[
       'name',
       serializers.serialize(object.name, specifiedType: const FullType(String)),
+      'publisherImageUrl',
+      serializers.serialize(object.publisherImageUrl,
+          specifiedType: const FullType(String)),
     ];
 
     return result;
@@ -40,6 +43,10 @@ class _$PublisherSerializer implements StructuredSerializer<Publisher> {
           result.name = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'publisherImageUrl':
+          result.publisherImageUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
       }
     }
 
@@ -50,13 +57,18 @@ class _$PublisherSerializer implements StructuredSerializer<Publisher> {
 class _$Publisher extends Publisher {
   @override
   final String name;
+  @override
+  final String publisherImageUrl;
 
   factory _$Publisher([void Function(PublisherBuilder) updates]) =>
       (new PublisherBuilder()..update(updates)).build();
 
-  _$Publisher._({this.name}) : super._() {
+  _$Publisher._({this.name, this.publisherImageUrl}) : super._() {
     if (name == null) {
       throw new BuiltValueNullFieldError('Publisher', 'name');
+    }
+    if (publisherImageUrl == null) {
+      throw new BuiltValueNullFieldError('Publisher', 'publisherImageUrl');
     }
   }
 
@@ -70,17 +82,21 @@ class _$Publisher extends Publisher {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Publisher && name == other.name;
+    return other is Publisher &&
+        name == other.name &&
+        publisherImageUrl == other.publisherImageUrl;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, name.hashCode));
+    return $jf($jc($jc(0, name.hashCode), publisherImageUrl.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('Publisher')..add('name', name))
+    return (newBuiltValueToStringHelper('Publisher')
+          ..add('name', name)
+          ..add('publisherImageUrl', publisherImageUrl))
         .toString();
   }
 }
@@ -92,11 +108,17 @@ class PublisherBuilder implements Builder<Publisher, PublisherBuilder> {
   String get name => _$this._name;
   set name(String name) => _$this._name = name;
 
+  String _publisherImageUrl;
+  String get publisherImageUrl => _$this._publisherImageUrl;
+  set publisherImageUrl(String publisherImageUrl) =>
+      _$this._publisherImageUrl = publisherImageUrl;
+
   PublisherBuilder();
 
   PublisherBuilder get _$this {
     if (_$v != null) {
       _name = _$v.name;
+      _publisherImageUrl = _$v.publisherImageUrl;
       _$v = null;
     }
     return this;
@@ -117,7 +139,8 @@ class PublisherBuilder implements Builder<Publisher, PublisherBuilder> {
 
   @override
   _$Publisher build() {
-    final _$result = _$v ?? new _$Publisher._(name: name);
+    final _$result = _$v ??
+        new _$Publisher._(name: name, publisherImageUrl: publisherImageUrl);
     replace(_$result);
     return _$result;
   }

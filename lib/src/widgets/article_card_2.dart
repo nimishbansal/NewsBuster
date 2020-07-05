@@ -105,13 +105,13 @@ class _ArticleCard2State extends State<ArticleCard2> {
           width: _cardWidth,
           child: Row(
             children: [
-              // Card Image
+              // Publisher Image
               Container(
                 height: double.infinity,
                 child: Align(
                   child: _isLoaded
                       ? Image.network(
-                          widget.article.imageUrl,
+                          widget.article.publisher.publisherImageUrl,
                         )
                       : null,
                 ),
