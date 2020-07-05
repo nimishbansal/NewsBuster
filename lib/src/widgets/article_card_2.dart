@@ -22,6 +22,11 @@ class ArticleCard2 extends StatefulWidget {
 }
 
 class _ArticleCard2State extends State<ArticleCard2> {
+
+  double _bookmarkAnimationEndValue = 1.0;
+  Duration _bookmarkAnimationDuration = Duration(milliseconds: 200);
+  Curve _bookmarkAnimationCurve = Curves.easeIn;
+
   get _isLoaded {
     return widget.article != null;
   }
@@ -100,6 +105,7 @@ class _ArticleCard2State extends State<ArticleCard2> {
           width: _cardWidth,
           child: Row(
             children: [
+              // Card Image
               Container(
                 height: double.infinity,
                 child: Align(
@@ -111,6 +117,7 @@ class _ArticleCard2State extends State<ArticleCard2> {
                 ),
               ),
               Spacer(),
+              // Publish Date
               Container(
                 height: double.infinity,
                 child: Align(
@@ -121,6 +128,7 @@ class _ArticleCard2State extends State<ArticleCard2> {
                 ),
               ),
               Spacer(),
+              // Publisher Name
               Container(
                 height: double.infinity,
                 child: Align(
@@ -130,22 +138,40 @@ class _ArticleCard2State extends State<ArticleCard2> {
                   ),
                 ),
               ),
-
               Spacer(),
-
               // Bookmark Button
               InkWell(
-                child: Icon(
-                  (snapshot.hasData && snapshot.data)
-                      ? Icons.bookmark
-                      : Icons.bookmark_border,
-                  size: 30,
+                child: TweenAnimationBuilder<double>(
+                  tween: Tween<double>(begin: 1, end:_bookmarkAnimationEndValue),
+                  duration: _bookmarkAnimationDuration,
+                  curve: _bookmarkAnimationCurve,
+                  builder: (context, value, child) {
+                    return Icon(
+                      (snapshot.hasData && snapshot.data)
+                              ? Icons.bookmark
+                              : Icons.bookmark_border,
+                      size: 30 * value,
+                    );
+                  },
                 ),
                 onTap: () {
                   if (snapshot.hasData) {
                     if (!snapshot.data) {
                       Provider.of<MyDatabase>(context)
                           .addBookmarked(widget.article);
+
+                      // start bookmark animation
+                      setState(() {
+                        _bookmarkAnimationEndValue = 1.3;
+                      });
+                      Future.delayed(_bookmarkAnimationDuration, (){
+                        setState(() {
+                          _bookmarkAnimationDuration = Duration(milliseconds: 400);
+                          _bookmarkAnimationCurve = Curves.linear;
+                          _bookmarkAnimationEndValue = 1;
+                        });
+                      });
+
                     } else {
                       Provider.of<MyDatabase>(context)
                           .removeBookmarked(widget.article);
