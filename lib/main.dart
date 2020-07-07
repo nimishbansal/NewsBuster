@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:newsbuster/src/bookmark_db.dart';
 import 'package:newsbuster/src/notifiers/article_list_model.dart';
 import 'package:newsbuster/src/screens/app_tour/app_initial_tour.dart';
+import 'package:newsbuster/src/screens/podcast_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry/sentry.dart';
 import 'dsn.dart';

@@ -39,6 +39,8 @@ class JsonModifierPlugin extends StandardJsonPlugin{
   Object beforeDeserialize(Object object, FullType specifiedType) {
         if (specifiedType.toString() == (Article).toString()){
             LinkedHashMap<String, dynamic> object1 = object;
+            // The Json Response we are getting the unique id as "_id" so
+            // replacing it with "id" similar to local database.
             if (object1.containsKey('_id')){
                 object1['id'] = object1['_id']; // _id is article id
                 object1.remove("_id");
