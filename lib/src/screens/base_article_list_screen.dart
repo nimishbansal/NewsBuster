@@ -3,6 +3,7 @@ import 'package:newsbuster/src/notifiers/article_list_model.dart';
 import 'package:newsbuster/src/screens/home_screen.dart';
 import 'package:newsbuster/src/screens/trending_screen.dart';
 import 'package:newsbuster/src/screens/recent_screen.dart';
+import 'package:newsbuster/src/utils/scroll_utils.dart';
 import 'package:newsbuster/src/widgets/article_card_2.dart';
 import 'package:provider/provider.dart';
 
@@ -66,10 +67,13 @@ abstract class BaseArticleListScreenState<T extends BaseArticleListScreen>
             );
           }
 
-          return ListView.builder(
-            itemBuilder: _itemBuilder,
-            controller: _scrollController,
-            itemCount: articleModel.articles.length + ((articleModel.isNullForShimmer)?2:0),
+          return ScrollConfiguration(
+            behavior: NoGlowOverScrollBehavior(),
+            child: ListView.builder(
+              itemBuilder: _itemBuilder,
+              controller: _scrollController,
+              itemCount: articleModel.articles.length + ((articleModel.isNullForShimmer)?2:0),
+            ),
           );
         }),
       ),
