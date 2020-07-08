@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:newsbuster/src/article.dart';
+import 'package:newsbuster/src/notifiers/article_list_model.dart';
+import 'package:newsbuster/src/utils/search_utils.dart';
+import 'package:path/path.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SearchScreen extends StatefulWidget {
   final screenName = 'Search';
@@ -9,10 +14,22 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  ArticleSearch articleSearch;
+
+  @override
+  void initState() {
+    super.initState();
+    articleSearch = ArticleSearch();
+  }
+
   @override
   Widget build(BuildContext context) {
-    Future(()=>showSearch(context: context, delegate: ArticleSearch()));
-    return Center(child: Container(color: Colors.white30,),);
+    Future(() => showSearch(context: context, delegate: ArticleSearch()));
+    return Center(
+      child: Container(
+        color: Colors.white30,
+      ),
+    );
     /*
     return ListView(
       children: [
@@ -37,6 +54,9 @@ class _SearchScreenState extends State<SearchScreen> {
 }
 
 class ArticleSearch extends SearchDelegate<Article> {
+
+  String currentQuery = "";
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -64,6 +84,42 @@ class ArticleSearch extends SearchDelegate<Article> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return Container();
+    if (query!=currentQuery || query==""){
+      final articleModel = Provider.of<ArticleListModel>(context, listen: false);
+      articleModel.searchArticles(query: query);
+
+    }
+    return Consumer<ArticleListModel>(
+        builder: (BuildContext context, articleListModel, __) {
+          currentQuery = query;
+          return ListView(
+        children: articleListModel.articles
+            .map((Article article) => _buildSuggestionTile(article, context))
+            .toList(),
+      );
+    });
+  }
+
+  Widget _buildSuggestionTile(Article article, BuildContext context) {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.elliptical(20, 50))),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListTile(
+          leading: Image.network(article.imageUrl),
+          title: RichText(
+            text: TextSpan(
+              children: highlightOccurrences(article.headline, currentQuery),
+              style: TextStyle(color: Colors.grey),
+            ),
+          ),
+          onTap: (){
+            launch(article.articleUrl,
+                    forceWebView: true, enableJavaScript: true);
+          },
+        ),
+      ),
+    );
   }
 }

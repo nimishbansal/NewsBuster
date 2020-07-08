@@ -36,6 +36,8 @@ class ArticleListModel extends ChangeNotifier {
   static const _recentPostsEndPoint = "/get-recent-posts";
   static const _trendingPostsEndPoint = "/get-trending-posts";
   static const _homePostsEndPoint = "/get-home-posts";
+  static _searchArticlesEndPoint(String keyword) => "/search/?q=$keyword";
+
 
   Future<List<Article>> _fetchArticles({int page: 1}) async {
     String endPoint = _getEndPointForTopic(_currentArticleType);
@@ -46,6 +48,7 @@ class ArticleListModel extends ChangeNotifier {
     }
     throw Exception("Error occurred while fetching articles at page $page with response ${res.body}");
   }
+
 
 
   void loadInitialArticles(ArticlesType articleType) async {
@@ -69,6 +72,18 @@ class ArticleListModel extends ChangeNotifier {
   void emptyArticles() {
     this._articles = defaultArticlesNullList;
     pageLoaded = 0;
+  }
+
+  void searchArticles({@required query}) async {
+    final res = await http.get("$_baseUrl${_searchArticlesEndPoint(query)}");
+    print(res.request.url);
+    if (res.statusCode == 200) {
+      String jsonStr = json.encode(json.decode(res.body)["data"]["articles"]);
+      _articles = parseArticles(jsonStr);
+      notifyListeners();
+      return;
+    }
+    throw Exception("Error occurred while searching articles with query $query with response ${res.body}");
   }
 
   String _getEndPointForTopic(ArticlesType articlesType) {
