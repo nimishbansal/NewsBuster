@@ -33,7 +33,7 @@ class _ArticleCard2State extends State<ArticleCard2> {
 
   @override
   Widget build(BuildContext context) {
-    var _cardWidth = 0.91 * MediaQuery.of(context).size.width;
+    var _cardWidth = 1.0 * MediaQuery.of(context).size.width;
     var _cardHeight = 0.58 * MediaQuery.of(context).size.height;
     var _imageHeight = 0.295 * MediaQuery.of(context).size.height;
     var _cardBottomStripHeight = 0.07 * _cardHeight;
@@ -47,7 +47,7 @@ class _ArticleCard2State extends State<ArticleCard2> {
           : null,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
     );
 
@@ -67,8 +67,8 @@ class _ArticleCard2State extends State<ArticleCard2> {
         _isLoaded ? widget.article.headline : _longEmptyString,
         overflow: TextOverflow.ellipsis,
         maxLines: 3,
-        style: GoogleFonts.kanit(
-          textStyle: TextStyle(fontSize: 18),
+        style: GoogleFonts.abhayaLibre(
+          textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -209,10 +209,9 @@ class _ArticleCard2State extends State<ArticleCard2> {
     return Padding(
       padding: const EdgeInsets.only(top:4.0, left: 8, right: 8),
       child: Card(
-        elevation: 2,
-        shadowColor: Colors.grey,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
-
+        elevation: 0,
+        shadowColor: Colors.white54,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
         child: StreamBuilder<bool>(
             stream: Provider.of<MyDatabase>(context).isBookmarked(widget.article),
             builder: (context, snapshot) {
@@ -226,15 +225,14 @@ class _ArticleCard2State extends State<ArticleCard2> {
                   }
                 },
                 child: Center(
-                  widthFactor: 1.1,
-                  heightFactor: 1.05,
+                  heightFactor: 1.1,
                   child: Container(
                     height: _cardHeight,
                     width: _cardWidth,
                     decoration: BoxDecoration(
                       color: Colors.white70,
                       borderRadius: BorderRadius.all(
-                        Radius.circular(8),
+                        Radius.circular(4),
                       ),
                     ),
                     child: Column(

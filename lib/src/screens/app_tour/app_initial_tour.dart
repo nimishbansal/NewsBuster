@@ -68,7 +68,7 @@ class _Page extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: 0.25 * _screenHeight,
+                top: 0.23 * _screenHeight,
                 left: 0.12 * _screenWidth,
                 child: Align(
                   alignment: Alignment.bottomCenter,
@@ -85,7 +85,7 @@ class _Page extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: 0.62 * _screenHeight,
+                top: 0.61 * _screenHeight,
                 left: 0.17 * _screenWidth,
                 child: Align(
                   alignment: Alignment.bottomCenter,
@@ -162,7 +162,7 @@ class _AppInitialTourState extends State<AppInitialTour> {
         child: 1 == 0?Text("hmm"):Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(child: pageView, width: _screenWidth, height: 0.81*_screenHeight,),
+            SizedBox(child: pageView, width: _screenWidth, height: 0.80*_screenHeight,),
             // Current Index Indicator
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -182,7 +182,7 @@ class _AppInitialTourState extends State<AppInitialTour> {
             ),
 
             SizedBox(
-              height: 0.04 * _screenHeight,
+              height: 0.0274 * _screenHeight,
             ),
             // Skip & Next Controls
             Row(
