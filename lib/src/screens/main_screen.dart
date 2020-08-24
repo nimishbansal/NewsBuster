@@ -3,6 +3,7 @@ import 'package:newsbuster/src/notifiers/article_list_model.dart';
 
 import 'bookmark_screen.dart';
 import 'home_screen.dart';
+import 'overview_home_screen.dart';
 import 'recent_screen.dart';
 import 'search_screen.dart';
 import 'trending_screen.dart';
@@ -115,7 +116,8 @@ class _MainScreenState extends State<MainScreen> {
   Widget _getScreenFromCurrentIndex(_BottomNavTab tab) {
     switch (tab.name) {
       case 'Home':
-        return HomeScreen(articleType: ArticlesType.Home);
+        return OverviewHomeScreen();
+//        return HomeScreen(articleType: ArticlesType.Home);
       case 'Trending':
         return TrendingScreen(articleType: ArticlesType.Trending);
       case 'Recent':
