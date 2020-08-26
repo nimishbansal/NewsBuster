@@ -3,7 +3,7 @@ import 'package:newsbuster/src/notifiers/article_list_model.dart';
 
 import 'bookmark_screen.dart';
 import 'home_screen.dart';
-import 'overview_home_screen.dart';
+import 'home_gallery_screen.dart';
 import 'recent_screen.dart';
 import 'search_screen.dart';
 import 'trending_screen.dart';
@@ -25,29 +25,20 @@ class _BottomNavTab {
 }
 
 var _bottomNavTabs = [
-  _BottomNavTab(name: 'Trending', iconFileName: 'trending.png',),
-  _BottomNavTab(
-    name: 'Search',
-    iconFileName: 'search.png',
-  ),
-  _BottomNavTab(
-    name: 'Home',
-    iconFileName: 'home.png',
-  ),
-  _BottomNavTab(
-    name: 'Recent',
-    iconFileName: 'recent.png',
-  ),
-  _BottomNavTab(
-    name: 'Bookmark',
-    iconFileName: 'bookmarks.png',
-  ),
+//  _BottomNavTab(name: 'Trending', iconFileName: 'trending.png'),
+  _BottomNavTab(name: 'Search', iconFileName: 'search.png'),
+  _BottomNavTab(name: 'Home', iconFileName: 'home.png'),
+//  _BottomNavTab(name: 'Recent', iconFileName: 'recent.png'),
+  _BottomNavTab(name: 'Bookmark', iconFileName: 'bookmarks.png'),
 ];
+
+/// index of home page in bottom navigation tabs
+int _homeIndex = _bottomNavTabs.indexOf(_bottomNavTabs.where((element) => element.name == 'Home').toList()[0]);
 
 /// This is the Main screen that will have all 5 navigation items
 /// defined above(homeNavigationItem, trendingNavigationItem etc)
 ///
-/// By default HomeScreen will launch HomeFragment(index 0).
+/// By default [MainScreen] will launch Home.
 class MainScreen extends StatefulWidget {
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -55,7 +46,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   /// Index of current navigation item.
-  int _currentIndex = 2;
+  int _currentIndex = _homeIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -68,15 +59,13 @@ class _MainScreenState extends State<MainScreen> {
       body: _getScreenFromCurrentIndex(_bottomNavTabs[_currentIndex])
           as StatefulWidget,
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-                BoxShadow(
-                color: Colors.black54,
-                blurRadius: 4.0,
-                offset: Offset(0.0, 0.1),
-                ),
-          ]
-        ),
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(
+            color: Colors.black54,
+            blurRadius: 4.0,
+            offset: Offset(0.0, 0.1),
+          ),
+        ]),
         child: BottomNavigationBar(
           selectedIconTheme: selectedBottomNavIconTheme,
           unselectedIconTheme: unselectedBottomNavIconTheme,

@@ -3,10 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:newsbuster/src/bookmark_db.dart';
 import 'package:newsbuster/src/notifiers/article_list_model.dart';
+import 'package:newsbuster/src/notifiers/home_gallery_model.dart';
 import 'package:newsbuster/src/screens/app_tour/app_initial_tour.dart';
+import 'package:newsbuster/src/screens/main_screen.dart';
 import 'package:newsbuster/src/screens/podcast_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry/sentry.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dsn.dart';
 
 MyDatabase db;
@@ -92,16 +95,41 @@ Future<Null> main() async {
 
 
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
 
 
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  bool _launchAppTour;
+
+  setupAppTourLaunchIfRequired() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool newInstallation = prefs.getBool('new_installation')??true;
+    setState(() {
+      _launchAppTour = newInstallation;
+    });
+    await prefs.setBool('new_installation', false);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setupAppTourLaunchIfRequired();
+  }
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (BuildContext context) {
           return ArticleListModel();
+        },),
+        ChangeNotifierProvider(create: (BuildContext context) {
+          return HomeGalleryModel();
         },),
 
         Provider(
@@ -118,7 +146,7 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
           applyElevationOverlayColor:true,
         ),
-        home: AppInitialTour(),
+        home: _launchAppTour==null?Container():_launchAppTour?AppInitialTour():MainScreen(),
       ),
     );
   }

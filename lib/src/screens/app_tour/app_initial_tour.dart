@@ -101,15 +101,6 @@ class _Page extends StatelessWidget {
       ),
     );
   }
-
-  void _handleOnTapDone(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => !kIsWeb ? MainScreen() : MainScreen(),
-      ), //MaterialPageRoute
-    );
-  }
 }
 
 /// App tour that is shown once user launches the app for the first time.
@@ -233,7 +224,7 @@ class _AppTourScreenClipper extends CustomClipper<Path> {
 
   _AppTourScreenClipper({this.screenSize});
   @override
-  getClip(Size size) {
+   Path getClip(Size size) {
     var path = new Path();
     path.moveTo(0.0, 0.074 * screenSize.height);
     path.lineTo(0.0, 0.7 * screenSize.height);

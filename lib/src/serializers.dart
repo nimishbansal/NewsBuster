@@ -3,12 +3,14 @@ library serializers;
 
 import 'dart:collection';
 
+import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
 
 import 'package:newsbuster/src/article.dart';
 import 'package:newsbuster/src/fact_check_result.dart';
 import 'package:newsbuster/src/publisher.dart';
+import 'package:newsbuster/src/youtube_channel.dart';
 
 part 'serializers.g.dart';
 
@@ -27,6 +29,8 @@ part 'serializers.g.dart';
     Article,
     Publisher,
     FactCheckResult,
+  YoutubeVideo,
+  YoutubeChannelVideosCarousel,
 ])
 
 final Serializers serializers = _$serializers;
