@@ -8,10 +8,15 @@ class HomeGalleryModel extends ChangeNotifier {
 
   static const _baseUrl = "http://3.14.8.229:8001/api/v1";
   static const _homeGalleryCarouselSlidersEndpoint  = '/homeGalleryChannels';
+  bool _isLoading = true;
+  bool get isLoading{
+    return _isLoading;
+  }
 
   List<YoutubeChannelVideosCarousel> channelVideosCarousel = [];
   void fetchGalleryData() async {
     final res = await http.get("$_baseUrl$_homeGalleryCarouselSlidersEndpoint");
+    _isLoading = false;
     if (res.statusCode == 200) {
       String jsonStr = json.encode(json.decode(res.body));
       channelVideosCarousel = parseYoutubeChannelsAndTheirVideoCarousels(jsonStr);

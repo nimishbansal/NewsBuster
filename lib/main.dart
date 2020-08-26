@@ -11,9 +11,9 @@ import 'package:provider/provider.dart';
 import 'package:sentry/sentry.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dsn.dart';
+import 'src/widgets/loader.dart';
 
 MyDatabase db;
-
 
 /// Sentry Configuration Starts here ///
 
@@ -32,84 +32,78 @@ bool isInDebugMode = true;
 
 /// Reports [error] along with its [stackTrace] to Sentry.io.
 Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
-    print('Caught error: $error');
+  print('Caught error: $error');
 
-    // Errors thrown in development mode are unlikely to be interesting. You can
-    // check if you are running in dev mode using an assertion and omit sending
-    // the report.
-    if (isInDebugMode) {
-        print(stackTrace);
-        print('In dev mode. Not sending report to Sentry.io.');
-        return;
-    }
+  // Errors thrown in development mode are unlikely to be interesting. You can
+  // check if you are running in dev mode using an assertion and omit sending
+  // the report.
+  if (isInDebugMode) {
+    print(stackTrace);
+    print('In dev mode. Not sending report to Sentry.io.');
+    return;
+  }
 
-    print('Reporting to Sentry.io...');
+  print('Reporting to Sentry.io...');
 
-    final SentryResponse response = await _sentry.captureException(
-        exception: error,
-        stackTrace: stackTrace,
-    );
+  final SentryResponse response = await _sentry.captureException(
+    exception: error,
+    stackTrace: stackTrace,
+  );
 
-    if (response.isSuccessful) {
-        print('Success! Event ID: ${response.eventId}');
-    } else {
-        print('Failed to report to Sentry.io: ${response.error}');
-    }
+  if (response.isSuccessful) {
+    print('Success! Event ID: ${response.eventId}');
+  } else {
+    print('Failed to report to Sentry.io: ${response.error}');
+  }
 }
 
 Future<Null> main() async {
-    // This captures errors reported by the Flutter framework.
-    db = MyDatabase();
-    FlutterError.onError = (FlutterErrorDetails details) async {
-        if (isInDebugMode) {
-            // In development mode simply print to console.
-            FlutterError.dumpErrorToConsole(details);
-        } else {
-            // In production mode report to the application zone to report to
-            // Sentry.
-            Zone.current.handleUncaughtError(details.exception, details.stack);
-        }
-    };
+  // This captures errors reported by the Flutter framework.
+  db = MyDatabase();
+  FlutterError.onError = (FlutterErrorDetails details) async {
+    if (isInDebugMode) {
+      // In development mode simply print to console.
+      FlutterError.dumpErrorToConsole(details);
+    } else {
+      // In production mode report to the application zone to report to
+      // Sentry.
+      Zone.current.handleUncaughtError(details.exception, details.stack);
+    }
+  };
 
-    // This creates a [Zone] that contains the Flutter application and stablishes
-    // an error handler that captures errors and reports them.
-    //
-    // Using a zone makes sure that as many errors as possible are captured,
-    // including those thrown from [Timer]s, microtasks, I/O, and those forwarded
-    // from the `FlutterError` handler.
-    //
-    // More about zones:
-    //
-    // - https://api.dartlang.org/stable/1.24.2/dart-async/Zone-class.html
-    // - https://www.dartlang.org/articles/libraries/zones
-    runZonedGuarded<Future<Null>>(() async {
-        runApp(new MyApp());
-    }, (error, stackTrace) async {
-        await _reportError(error, stackTrace);
-    });
+  // This creates a [Zone] that contains the Flutter application and stablishes
+  // an error handler that captures errors and reports them.
+  //
+  // Using a zone makes sure that as many errors as possible are captured,
+  // including those thrown from [Timer]s, microtasks, I/O, and those forwarded
+  // from the `FlutterError` handler.
+  //
+  // More about zones:
+  //
+  // - https://api.dartlang.org/stable/1.24.2/dart-async/Zone-class.html
+  // - https://www.dartlang.org/articles/libraries/zones
+  runZonedGuarded<Future<Null>>(() async {
+    runApp(new MyApp());
+  }, (error, stackTrace) async {
+    await _reportError(error, stackTrace);
+  });
 }
 
 /// Sentry Configuration Ended here ///
 
-
-
-
-
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
-
 
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-
   bool _launchAppTour;
 
   setupAppTourLaunchIfRequired() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool newInstallation = prefs.getBool('new_installation')??true;
+    bool newInstallation = prefs.getBool('new_installation') ?? true;
     setState(() {
       _launchAppTour = newInstallation;
     });
@@ -121,32 +115,37 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     setupAppTourLaunchIfRequired();
   }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (BuildContext context) {
-          return ArticleListModel();
-        },),
-        ChangeNotifierProvider(create: (BuildContext context) {
-          return HomeGalleryModel();
-        },),
-
-        Provider(
-            create: (BuildContext context){
-                return db;
-            },
+        ChangeNotifierProvider(
+          create: (BuildContext context) {
+            return ArticleListModel();
+          },
         ),
-
+        ChangeNotifierProvider(
+          create: (BuildContext context) {
+            return HomeGalleryModel();
+          },
+        ),
+        Provider(
+          create: (BuildContext context) {
+            return db;
+          },
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
-          applyElevationOverlayColor:true,
+          applyElevationOverlayColor: true,
         ),
-        home: _launchAppTour==null?Container():_launchAppTour?AppInitialTour():MainScreen(),
+        home: (_launchAppTour == null)
+            ? BoxLoader() // show loader until _launchAppTour is set
+            : _launchAppTour ? AppInitialTour() : MainScreen(),
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:newsbuster/src/notifiers/article_list_model.dart';
 import 'package:newsbuster/src/notifiers/home_gallery_model.dart';
 import 'package:newsbuster/src/screens/home_screen.dart';
+import 'package:newsbuster/src/widgets/loader.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -61,6 +62,7 @@ class _CarouselGalleryScreenState extends State<CarouselGalleryScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeGalleryModel>(builder: (_, homeGalleryModel, __) {
+      if (homeGalleryModel.isLoading) return BoxLoader();
       return ListView(
         children: <Widget>[
           for (var item in homeGalleryModel.channelVideosCarousel)
