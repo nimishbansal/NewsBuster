@@ -14,10 +14,10 @@ class _TourScreen {
 }
 
 /// Pages for the screens thar are displayed in app tour.
-List<_TourScreen> _screens = [
-  _TourScreen(text: "Find Trending And\nAuthentic News", imagePath: '1.png'),
+final List<_TourScreen> _screens = [
+   _TourScreen(text: "Find Trending And\nAuthentic News", imagePath: '1.png'),
   _TourScreen(
-      text: "Listen To Podcasts\nAnytime, Anywhere", imagePath: '2.png'),
+      text: "Get Fact Checks\nAnytime, Anywhere", imagePath: 'Fact-CheckingVerification.png'),
   _TourScreen(text: "Renowned And\nReliable Sources", imagePath: '3.png')
 ];
 
