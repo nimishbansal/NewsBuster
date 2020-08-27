@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:newsbuster/src/bookmark_db.dart';
 import 'package:newsbuster/src/notifiers/article_list_model.dart';
 import 'package:newsbuster/src/notifiers/home_gallery_model.dart';
@@ -104,6 +105,7 @@ class _MyAppState extends State<MyApp> {
   setupAppTourLaunchIfRequired() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool newInstallation = prefs.getBool('new_installation') ?? true;
+    await Future.delayed(Duration(seconds: 1));
     setState(() {
       _launchAppTour = newInstallation;
     });
@@ -144,7 +146,12 @@ class _MyAppState extends State<MyApp> {
           applyElevationOverlayColor: true,
         ),
         home: (_launchAppTour == null)
-            ? BoxLoader() // show loader until _launchAppTour is set
+            ? Container(
+              color:Colors.white,
+              child: Center(
+                child: SpinKitDualRing(color: Colors.green[900], size: 150,),
+              ),
+            ) // show loader until _launchAppTour is set
             : _launchAppTour ? AppInitialTour() : MainScreen(),
       ),
     );

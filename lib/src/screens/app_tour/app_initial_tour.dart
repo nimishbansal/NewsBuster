@@ -150,7 +150,7 @@ class _AppInitialTourState extends State<AppInitialTour> {
                 backgroundColor: Colors.transparent,
               )),
       body: Container(
-        child: 1 == 0?Text("hmm"):Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(child: pageView, width: _screenWidth, height: 0.80*_screenHeight,),

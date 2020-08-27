@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:newsbuster/src/notifiers/article_list_model.dart';
 import 'package:newsbuster/src/notifiers/home_gallery_model.dart';
 import 'package:newsbuster/src/screens/home_screen.dart';
@@ -62,7 +63,7 @@ class _CarouselGalleryScreenState extends State<CarouselGalleryScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeGalleryModel>(builder: (_, homeGalleryModel, __) {
-      if (homeGalleryModel.isLoading) return BoxLoader();
+      if (homeGalleryModel.isLoading) return SpinKitDoubleBounce(color: Colors.lightBlueAccent,);
       return ListView(
         children: <Widget>[
           for (var item in homeGalleryModel.channelVideosCarousel)
