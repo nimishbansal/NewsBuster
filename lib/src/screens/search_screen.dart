@@ -62,7 +62,10 @@ class ArticleSearch extends SearchDelegate<Article> {
     return [
       IconButton(
         icon: Icon(Icons.close),
-        onPressed: () {},
+        onPressed: () {
+         currentQuery = '';
+         query = '';
+        },
       ),
     ];
   }

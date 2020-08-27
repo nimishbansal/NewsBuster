@@ -56,8 +56,7 @@ class _MainScreenState extends State<MainScreen> {
           child: AppBar(
             backgroundColor: Colors.transparent,
           )),
-      body: _getScreenFromCurrentIndex(_bottomNavTabs[_currentIndex])
-          as StatefulWidget,
+      body: _getScreenFromCurrentIndex(_bottomNavTabs[_currentIndex]),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
@@ -97,6 +96,10 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _onNavTapped(int index, BuildContext context) {
+    if (_bottomNavTabs[index].name == 'Search'){
+      Future(() => showSearch(context: context, delegate: ArticleSearch()));
+      return;
+    }
     setState(() {
       _currentIndex = index;
     });
@@ -113,8 +116,6 @@ class _MainScreenState extends State<MainScreen> {
         return RecentScreen(articleType: ArticlesType.Recent);
       case 'Bookmark':
         return BookmarkScreen(articleType: ArticlesType.Bookmarks);
-      case 'Search':
-        return SearchScreen();
     }
     return Container();
   }
