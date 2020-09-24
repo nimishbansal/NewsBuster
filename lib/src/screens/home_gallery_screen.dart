@@ -28,16 +28,12 @@ class YoutubeVideoElementWidget extends StatelessWidget {
             },
             splashColor: const Color(0xFF34b0fc),
             child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.transparent,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(
+                  video.imageUrl,
+                ),
               ),
-              child: Image.network(
-                video.imageUrl,
-                fit: BoxFit.fitWidth,
-              ),
-              width: 200,
-              height: 120,
             ),
           ),
         ),
